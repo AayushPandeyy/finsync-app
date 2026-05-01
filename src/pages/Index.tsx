@@ -145,19 +145,9 @@ const Index = () => {
               }}
             />
 
-            {/* Left phone */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+200px)] -translate-y-[calc(50%-10px)] animate-float-delayed">
-              <PhoneFrame src={screenBudgets} alt="FinSync budgets" rotate="-rotate-[10deg]" width="w-[190px] md:w-[210px]" />
-            </div>
-
-            {/* Right phone */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%-200px)] -translate-y-[calc(50%-10px)] animate-float-delayed" style={{ animationDelay: "2s" }}>
-              <PhoneFrame src={screenSummary} alt="FinSync summary" rotate="rotate-[10deg]" width="w-[190px] md:w-[210px]" />
-            </div>
-
-            {/* Center phone (front) */}
+            {/* Center phone */}
             <div className="relative z-20 animate-float">
-              <PhoneFrame src={screenHome} alt="FinSync home" width="w-[260px] md:w-[290px]" featured />
+              <PhoneFrame src={screenHome} alt="FinSync home" width="w-[260px] md:w-[300px]" featured />
             </div>
 
             {/* Floating UI accents */}
@@ -241,33 +231,88 @@ const Index = () => {
       </section>
 
       {/* Screens showcase */}
-      <section id="screens" className="py-24 bg-secondary/40">
-        <div className="container">
+      <section id="screens" className="py-24 bg-secondary/40 relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        <div className="container relative">
           <div className="max-w-2xl mx-auto text-center">
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">A closer look</span>
-            <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">Designed to feel effortless</h2>
+            <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
+              Designed to feel <span className="text-gradient">effortless</span>
+            </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Bold gradients, friendly cards and clear numbers. Every screen tells you exactly what you need to know.
+              Bold gradients, friendly cards and crystal-clear numbers. Every screen tells you exactly what you need to know.
             </p>
           </div>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-8">
+          <div className="mt-20 space-y-28">
             {[
-              { src: screenHome, title: "Dashboard", desc: "Your wallets, balance and recent activity at a glance." },
-              { src: screenBudgets, title: "Budgets", desc: "Daily, weekly and monthly limits with progress rings." },
-              { src: screenSummary, title: "Monthly Summary", desc: "Net balance, income vs expense, and goal progress." },
-            ].map((s) => (
-              <div key={s.title} className="text-center">
-                <div className="relative inline-block">
-                  <div className="absolute -inset-4 gradient-hero rounded-[2.5rem] blur-2xl opacity-30" />
-                  <img
-                    src={s.src}
-                    alt={s.title}
-                    className="relative w-full max-w-[280px] mx-auto rounded-[2rem] border-[6px] border-foreground/90 shadow-card"
-                  />
+              {
+                src: screenHome,
+                step: "01",
+                eyebrow: "Dashboard",
+                title: "Your money, at a glance.",
+                desc: "See your total balance across every wallet, recent transactions, and quick actions — all on one beautifully calm screen.",
+                bullets: ["Total balance with income & expense split", "One-tap add income or expense", "Live recent transactions feed"],
+              },
+              {
+                src: screenBudgets,
+                step: "02",
+                eyebrow: "Budgets",
+                title: "Stay on track, automatically.",
+                desc: "Set daily, weekly or monthly budgets and let FinSync warn you the moment you're about to overspend.",
+                bullets: ["Multiple overlapping budget periods", "Visual progress with color cues", "Smart over-budget alerts"],
+              },
+              {
+                src: screenSummary,
+                step: "03",
+                eyebrow: "Monthly Summary",
+                title: "Clarity at the end of every month.",
+                desc: "A clean snapshot of how you spent, saved and progressed toward your goals — built to be read in 10 seconds.",
+                bullets: ["Income vs expense breakdown", "Goal progress at a glance", "Compare with previous months"],
+              },
+            ].map((s, i) => (
+              <div
+                key={s.title}
+                className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}
+              >
+                {/* Phone */}
+                <div className="relative flex justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="h-[360px] w-[360px] rounded-full gradient-hero blur-3xl opacity-30" />
+                  </div>
+                  <div className={`relative ${i % 2 === 0 ? "-rotate-3" : "rotate-3"} transition-transform duration-500 hover:rotate-0`}>
+                    <PhoneFrame src={s.src} alt={s.title} width="w-[240px] md:w-[280px]" featured />
+                  </div>
                 </div>
-                <h3 className="mt-6 text-xl font-semibold">{s.title}</h3>
-                <p className="mt-2 text-muted-foreground">{s.desc}</p>
+
+                {/* Copy */}
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono font-semibold text-primary">{s.step}</span>
+                    <span className="h-px flex-1 max-w-[60px] bg-border" />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.eyebrow}</span>
+                  </div>
+                  <h3 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+                    {s.title}
+                  </h3>
+                  <p className="mt-4 text-lg text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <ul className="mt-6 space-y-3">
+                    {s.bullets.map((b) => (
+                      <li key={b} className="flex items-start gap-3">
+                        <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+                          <Check className="h-3 w-3" />
+                        </span>
+                        <span className="text-foreground/90">{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
