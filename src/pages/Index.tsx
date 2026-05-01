@@ -4,12 +4,6 @@ import screenBudgets from "@/assets/screen-budgets.jpg";
 import screenSummary from "@/assets/screen-summary.jpg";
 import { Button } from "@/components/ui/button";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
   Wallet,
   PieChart,
   Target,
@@ -19,278 +13,146 @@ import {
   CalendarRange,
   BarChart3,
   Check,
-  ArrowRight,
+  Star,
+  Shield,
   Sparkles,
 } from "lucide-react";
 
-/* -------------------------------------------------------------------------- */
-/*  Re-usable bits                                                            */
-/* -------------------------------------------------------------------------- */
+const features = [
+  { icon: TrendingUp, title: "Income & Expense Tracking", desc: "Categorize every transaction so you always know where your money goes." },
+  { icon: PieChart, title: "Budget Tracking", desc: "Set daily, weekly and monthly limits and get alerts before you overspend." },
+  { icon: Users, title: "IOUs Made Simple", desc: "Track who owes you and who you owe — never forget a debt again." },
+  { icon: Target, title: "Financial Goals", desc: "Save for what matters and watch your progress in real time." },
+  { icon: BarChart3, title: "Powerful Analytics", desc: "Beautiful charts that turn raw numbers into clear insights." },
+  { icon: Wallet, title: "Multiple Wallets", desc: "Cash, bank, savings — manage every account in one place." },
+  { icon: ArrowLeftRight, title: "Wallet Transfers", desc: "Move money between wallets instantly with one tap." },
+  { icon: CalendarRange, title: "Monthly Summary", desc: "A clean snapshot of your income, expenses and net balance each month." },
+];
 
-const PlayBadge = ({
-  variant = "dark",
-  className = "",
-}: {
-  variant?: "dark" | "light";
-  className?: string;
-}) => {
-  const dark = variant === "dark";
-  return (
-    <a
-      href="#"
-      className={`inline-flex items-center gap-3 rounded-full px-5 py-3 transition-all hover:scale-[1.03] ${
-        dark
-          ? "bg-foreground text-background hover:shadow-glow"
-          : "bg-background text-foreground shadow-card hover:shadow-soft"
-      } ${className}`}
-      aria-label="Get FinSync on Google Play"
-    >
-      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-        <path d="M3.6 1.6a2 2 0 0 0-1 1.74v17.32a2 2 0 0 0 1 1.74L13.5 12 3.6 1.6Z" fill="#34A853" />
-        <path d="M17.4 8.1 13.5 12l3.9 3.9 3.4-1.97a2 2 0 0 0 0-3.86L17.4 8.1Z" fill="#FBBC04" />
-        <path d="M3.6 1.6 13.5 12l3.9-3.9L4.6 1.06A2 2 0 0 0 3.6 1.6Z" fill="#EA4335" />
-        <path d="M3.6 22.4a2 2 0 0 0 1 .54L17.4 15.9 13.5 12 3.6 22.4Z" fill="#4285F4" />
-      </svg>
-      <span className="flex flex-col items-start leading-tight">
-        <span className="text-[10px] uppercase tracking-wider opacity-80">Get it on</span>
-        <span className="text-base font-semibold">Google Play</span>
-      </span>
-    </a>
-  );
-};
+const PlayBadge = ({ className = "" }: { className?: string }) => (
+  <a
+    href="#"
+    className={`inline-flex items-center gap-3 rounded-2xl bg-foreground px-5 py-3 text-background transition-all hover:scale-105 hover:shadow-glow ${className}`}
+    aria-label="Get FinSync on Google Play"
+  >
+    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none">
+      <path d="M3.6 1.6a2 2 0 0 0-1 1.74v17.32a2 2 0 0 0 1 1.74L13.5 12 3.6 1.6Z" fill="#34A853"/>
+      <path d="M17.4 8.1 13.5 12l3.9 3.9 3.4-1.97a2 2 0 0 0 0-3.86L17.4 8.1Z" fill="#FBBC04"/>
+      <path d="M3.6 1.6 13.5 12l3.9-3.9L4.6 1.06A2 2 0 0 0 3.6 1.6Z" fill="#EA4335"/>
+      <path d="M3.6 22.4a2 2 0 0 0 1 .54L17.4 15.9 13.5 12 3.6 22.4Z" fill="#4285F4"/>
+    </svg>
+    <span className="flex flex-col items-start leading-tight">
+      <span className="text-[10px] uppercase tracking-wider opacity-80">Get it on</span>
+      <span className="text-lg font-semibold">Google Play</span>
+    </span>
+  </a>
+);
 
 const PhoneFrame = ({
   src,
   alt,
   width = "w-[260px]",
-  className = "",
+  rotate = "",
+  featured = false,
 }: {
   src: string;
   alt: string;
   width?: string;
-  className?: string;
+  rotate?: string;
+  featured?: boolean;
 }) => (
-  <div
-    className={`relative ${width} rounded-[2.5rem] bg-foreground p-[6px] shadow-glow ${className}`}
-    style={{
-      boxShadow:
-        "0 40px 90px -20px hsl(250 70% 40% / 0.45), inset 0 0 0 1px hsl(0 0% 100% / 0.08)",
-    }}
-  >
-    <div className="relative overflow-hidden rounded-[2.1rem] bg-background">
-      <img src={src} alt={alt} className="block w-full h-auto" />
+  <div className={`relative ${rotate}`}>
+    <div className={`absolute -inset-3 gradient-hero rounded-[3rem] blur-2xl ${featured ? "opacity-60" : "opacity-40"}`} />
+    <div
+      className={`relative ${width} rounded-[2.5rem] bg-foreground p-[6px] shadow-glow`}
+      style={{ boxShadow: featured ? "0 40px 90px -20px hsl(250 70% 40% / 0.55), inset 0 0 0 1px hsl(0 0% 100% / 0.08)" : "0 25px 60px -20px hsl(250 60% 30% / 0.45), inset 0 0 0 1px hsl(0 0% 100% / 0.06)" }}
+    >
+      <div className="relative overflow-hidden rounded-[2.1rem] bg-background">
+        <img src={src} alt={alt} className="block w-full h-auto" />
+      </div>
     </div>
   </div>
 );
 
-const SectionEyebrow = ({ children }: { children: React.ReactNode }) => (
-  <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-1.5 text-xs font-semibold text-foreground/70 backdrop-blur">
-    <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-    {children}
-  </div>
-);
-
-/* -------------------------------------------------------------------------- */
-/*  Data                                                                      */
-/* -------------------------------------------------------------------------- */
-
-const features = [
-  {
-    icon: TrendingUp,
-    title: "Income & Expense Tracking",
-    desc: "Log every transaction with smart categories so you always know where your money goes.",
-    img: screenHome,
-  },
-  {
-    icon: PieChart,
-    title: "Budget Tracking",
-    desc: "Set daily, weekly or monthly limits and get gentle nudges before you overspend.",
-    img: screenBudgets,
-  },
-  {
-    icon: Wallet,
-    title: "Multi-Wallet Support",
-    desc: "Cash, bank, savings — manage every account in one place and transfer between them in a tap.",
-    img: screenSummary,
-  },
-];
-
-const steps = [
-  {
-    title: "Install FinSync in seconds",
-    desc: "Grab the app from the Google Play Store and create your first wallet in under a minute.",
-  },
-  {
-    title: "Track every rupee effortlessly",
-    desc: "Add income, expenses and IOUs with categories that actually make sense to you.",
-  },
-  {
-    title: "Stay in control of your goals",
-    desc: "Watch budgets, goals and monthly summaries update live as your finances grow.",
-  },
-];
-
-const trust = [
-  {
-    icon: Sparkles,
-    title: "Save Hours Every Month",
-    desc: "Stop juggling spreadsheets — FinSync automates the boring parts of money management.",
-  },
-  {
-    icon: BarChart3,
-    title: "Get Real Financial Insights",
-    desc: "Beautiful charts turn your raw numbers into clear, actionable insights you can trust.",
-  },
-  {
-    icon: Target,
-    title: "Stay On Top of Budgets",
-    desc: "Smart alerts and goal tracking keep you on course — without the guilt or guesswork.",
-  },
-];
-
-const plans = [
-  {
-    name: "Personal",
-    price: "Free",
-    tagline: "Perfect for individuals just getting started.",
-    bullets: [
-      "Unlimited transactions",
-      "Up to 3 wallets",
-      "Budget tracking",
-      "Monthly summary",
-    ],
-    highlight: false,
-    cta: "Get Started",
-  },
-  {
-    name: "Pro",
-    price: "Free",
-    tagline: "Everything in Personal, plus the power features.",
-    bullets: [
-      "Unlimited wallets & transfers",
-      "IOU tracking with friends",
-      "Financial goals",
-      "Advanced analytics",
-    ],
-    highlight: true,
-    cta: "Get Started",
-  },
-  {
-    name: "Family",
-    price: "Soon",
-    tagline: "For households tracking finances together.",
-    bullets: [
-      "Shared wallets",
-      "Member roles",
-      "Combined summaries",
-      "Family goals",
-    ],
-    highlight: false,
-    cta: "Notify Me",
-  },
-];
-
-const faqs = [
-  {
-    q: "Is FinSync really free to use?",
-    a: "Yes. FinSync is completely free to download and use on Android. There are no hidden subscriptions or paywalls.",
-  },
-  {
-    q: "Is FinSync available on iOS?",
-    a: "Not yet. FinSync is currently Android-only. iOS support is planned for a future release — stay tuned!",
-  },
-  {
-    q: "Where is my financial data stored?",
-    a: "Your data lives privately on your device. FinSync is built offline-first, so your finances stay yours.",
-  },
-  {
-    q: "Can I track multiple wallets and transfer between them?",
-    a: "Absolutely. You can create multiple wallets — cash, bank, savings — and move money between them with one tap.",
-  },
-  {
-    q: "How do IOUs work in FinSync?",
-    a: "IOUs let you track who owes you money and who you owe. Mark them as paid when settled and FinSync handles the rest.",
-  },
-  {
-    q: "Will FinSync support more features in the future?",
-    a: "Yes — recurring transactions, family wallets and more analytics are on the roadmap. Updates roll out frequently.",
-  },
-];
-
-/* -------------------------------------------------------------------------- */
-/*  Page                                                                      */
-/* -------------------------------------------------------------------------- */
-
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* ────────────────────────  Nav  ──────────────────────── */}
-      <header className="sticky top-4 z-50 px-4">
-        <nav className="container max-w-6xl rounded-full border border-border bg-background/80 backdrop-blur-xl px-4 py-2 flex items-center justify-between shadow-card">
-          <a href="#" className="flex items-center gap-2 pl-2">
-            <img src={logo} alt="FinSync logo" className="h-8 w-auto" />
-            <span className="font-semibold tracking-tight hidden sm:inline">FinSync</span>
+    <div className="min-h-screen bg-background">
+      {/* Nav */}
+      <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/70 border-b border-border/50">
+        <nav className="container flex items-center justify-between py-4">
+          <a href="#" className="flex items-center gap-2">
+            <img src={logo} alt="FinSync logo" className="h-9 w-auto" />
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-            <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
-            <a href="#plans" className="hover:text-foreground transition-colors">Plans</a>
-            <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
+            <a href="#screens" className="hover:text-foreground transition-colors">Screens</a>
+            <a href="#why" className="hover:text-foreground transition-colors">Why FinSync</a>
           </div>
-          <Button asChild size="sm" className="rounded-full bg-foreground text-background hover:bg-foreground/90">
-            <a href="#download">Get Started</a>
+          <Button asChild size="sm" className="rounded-full">
+            <a href="#download">Download</a>
           </Button>
         </nav>
       </header>
 
-      {/* ────────────────────────  Hero  ──────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div className="container max-w-6xl pt-16 pb-24 lg:pt-24 lg:pb-32 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="animate-fade-up">
-            <SectionEyebrow>Your Finance Companion</SectionEyebrow>
-            <h1 className="mt-6 text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.02]">
-              Take Control of Your{" "}
-              <span className="text-gradient">Financial Future</span>
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
-              FinSync helps you track expenses, manage budgets, settle IOUs and reach
-              financial goals — all from a single, beautifully simple Android app.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <PlayBadge />
-              <Button asChild variant="outline" size="lg" className="rounded-full h-[58px] px-6">
-                <a href="#features">
-                  Explore Features <ArrowRight className="ml-1 h-4 w-4" />
-                </a>
-              </Button>
-            </div>
+      {/* Hero */}
+      <section className="relative overflow-hidden gradient-soft">
+        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/30 blur-3xl animate-blob" />
+        <div className="absolute top-20 -right-20 h-96 w-96 rounded-full bg-primary-glow/30 blur-3xl animate-blob" style={{ animationDelay: "3s" }} />
 
-            <div className="mt-10 flex items-center gap-6 text-sm text-muted-foreground">
-              <span>Trusted by early users on</span>
-              <div className="flex items-center gap-5 opacity-70">
-                <span className="font-semibold tracking-tight">Android</span>
-                <span className="h-4 w-px bg-border" />
-                <span className="font-semibold tracking-tight">Play Store</span>
-                <span className="h-4 w-px bg-border" />
-                <span className="font-semibold tracking-tight">Offline</span>
+        <div className="container relative grid lg:grid-cols-2 gap-12 lg:gap-8 items-center py-20 lg:py-28">
+          <div className="animate-fade-up">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              Your Finance Companion
+            </span>
+            <h1 className="mt-6 text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]">
+              Take control of <span className="text-gradient">every rupee.</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
+              FinSync helps you track expenses, manage budgets, settle IOUs and reach financial goals — all from a single, beautifully simple Android app.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <PlayBadge />
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                Loved by early users
               </div>
+            </div>
+            <div className="mt-8 flex items-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2"><Check className="h-4 w-4 text-accent" /> Free to download</div>
+              <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-accent" /> Private & secure</div>
             </div>
           </div>
 
-          {/* Phone visual */}
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="absolute -inset-10 gradient-hero rounded-[3rem] blur-3xl opacity-25" />
+          {/* Phone mockups */}
+          <div className="relative h-[600px] lg:h-[680px] flex items-center justify-center lg:ml-8">
+            {/* Backdrop glow */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="h-[420px] w-[420px] rounded-full gradient-hero blur-3xl opacity-50" />
+            </div>
+            {/* Decorative grid dots */}
             <div
-              className="relative rounded-[2.75rem] p-6 md:p-8"
+              className="absolute inset-0 opacity-[0.18] pointer-events-none"
               style={{
-                background:
-                  "linear-gradient(160deg, hsl(35 40% 92%) 0%, hsl(250 60% 95%) 100%)",
+                backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
+                backgroundSize: "22px 22px",
+                maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
               }}
-            >
-              <PhoneFrame src={screenHome} alt="FinSync home" width="w-[260px] md:w-[290px]" />
+            />
 
-              {/* floating accents */}
-              <div className="absolute -left-6 top-10 rounded-2xl bg-card border border-border shadow-card px-4 py-3 flex items-center gap-3">
+            {/* Center phone */}
+            <div className="relative z-20 animate-float">
+              <PhoneFrame src={screenHome} alt="FinSync home" width="w-[260px] md:w-[300px]" featured />
+            </div>
+
+            {/* Floating UI accents */}
+            <div className="absolute top-12 left-4 md:left-2 z-30 animate-float" style={{ animationDelay: "1.2s" }}>
+              <div className="flex items-center gap-3 rounded-2xl bg-card/95 backdrop-blur border border-border shadow-card px-4 py-3">
                 <div className="h-9 w-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center">
                   <TrendingUp className="h-4 w-4" />
                 </div>
@@ -299,7 +161,10 @@ const Index = () => {
                   <p className="text-sm font-semibold">+₹ 22,500</p>
                 </div>
               </div>
-              <div className="absolute -right-4 bottom-12 rounded-2xl gradient-card text-primary-foreground shadow-glow px-4 py-3 flex items-center gap-3">
+            </div>
+
+            <div className="absolute bottom-16 right-2 md:right-0 z-30 animate-float-delayed" style={{ animationDelay: "0.6s" }}>
+              <div className="flex items-center gap-3 rounded-2xl gradient-card text-primary-foreground shadow-glow px-4 py-3">
                 <div className="h-9 w-9 rounded-xl bg-white/20 flex items-center justify-center">
                   <Target className="h-4 w-4" />
                 </div>
@@ -309,279 +174,240 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ────────────────────────  Features  ──────────────────────── */}
-      <section id="features" className="py-24">
-        <div className="container max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Powerful Features to Take Control of{" "}
-              <span className="text-gradient">Your Finances</span>
-            </h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-              Everything you need to manage money confidently — built into one Android app.
-            </p>
-          </div>
-
-          <div className="mt-14 grid md:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="group flex flex-col rounded-3xl bg-card border border-border p-6 shadow-card hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <f.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-xl font-semibold tracking-tight">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-                <div className="mt-6 rounded-2xl bg-secondary/60 p-4 flex items-center justify-center min-h-[180px] overflow-hidden">
-                  <img
-                    src={f.img}
-                    alt={f.title}
-                    className="max-h-[200px] w-auto rounded-xl shadow-soft group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <Button asChild variant="outline" className="rounded-full">
-              <a href="#how">
-                See how it works <ArrowRight className="ml-1 h-4 w-4" />
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ────────────────────────  3 Steps purple band  ──────────────────────── */}
-      <section id="how" className="py-24">
-        <div className="container max-w-6xl">
-          <div className="rounded-[2.5rem] gradient-hero p-8 md:p-14 lg:p-16 text-primary-foreground shadow-glow relative overflow-hidden">
-            <div className="absolute -top-24 -right-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-
-            <div className="relative grid lg:grid-cols-2 gap-12 items-center">
-              {/* Phone */}
-              <div className="flex justify-center">
-                <PhoneFrame src={screenBudgets} alt="Budgets" width="w-[240px] md:w-[270px]" />
-              </div>
-
-              {/* Steps */}
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight">
-                  Manage Your Finances in <br /> 3 Simple Steps
-                </h2>
-                <ul className="mt-8 space-y-5">
-                  {steps.map((s, i) => (
-                    <li
-                      key={s.title}
-                      className="flex items-start gap-4 rounded-2xl bg-white/10 backdrop-blur px-5 py-4"
-                    >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-primary font-bold">
-                        {i + 1}
-                      </span>
-                      <div>
-                        <p className="font-semibold">{s.title}</p>
-                        <p className="mt-1 text-sm opacity-90 leading-relaxed">{s.desc}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="rounded-full bg-white text-primary hover:bg-white/90"
-                  >
-                    <a href="#download">
-                      Get Started <ArrowRight className="ml-1 h-4 w-4" />
-                    </a>
-                  </Button>
-                </div>
+            <div className="absolute top-24 right-6 z-30 animate-float" style={{ animationDelay: "2.4s" }}>
+              <div className="rounded-full bg-card/95 backdrop-blur border border-border shadow-card px-3 py-1.5 flex items-center gap-1.5">
+                <Sparkles className="h-3 w-3 text-primary" />
+                <span className="text-xs font-medium">On track</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ────────────────────────  Trust grid  ──────────────────────── */}
-      <section className="py-24">
-        <div className="container max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto">
-            <SectionEyebrow>Why FinSync</SectionEyebrow>
-            <h2 className="mt-5 text-4xl md:text-5xl font-bold tracking-tight">
-              Why People Trust FinSync
+      {/* Stats / trust strip */}
+      <section className="border-y border-border bg-background">
+        <div className="container grid grid-cols-2 md:grid-cols-4 gap-8 py-10">
+          {[
+            { v: "8+", l: "Powerful features" },
+            { v: "100%", l: "Offline-first" },
+            { v: "0₹", l: "To get started" },
+            { v: "Android", l: "Available now" },
+          ].map((s) => (
+            <div key={s.l} className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-gradient">{s.v}</div>
+              <div className="mt-1 text-sm text-muted-foreground">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features */}
+      <section id="features" className="py-24 container">
+        <div className="max-w-2xl mx-auto text-center">
+          <span className="text-sm font-semibold text-primary uppercase tracking-wider">Features</span>
+          <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
+            Everything you need to <span className="text-gradient">master your money</span>
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            One app for every part of your financial life — no spreadsheets, no clutter.
+          </p>
+        </div>
+
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="group relative p-6 rounded-2xl bg-card border border-border shadow-card hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl gradient-hero text-primary-foreground shadow-soft">
+                <f.icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Screens showcase */}
+      <section id="screens" className="py-24 bg-secondary/40 relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        <div className="container relative">
+          <div className="max-w-2xl mx-auto text-center">
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">A closer look</span>
+            <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
+              Designed to feel <span className="text-gradient">effortless</span>
             </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Bold gradients, friendly cards and crystal-clear numbers. Every screen tells you exactly what you need to know.
+            </p>
           </div>
 
-          <div className="mt-14 grid md:grid-cols-3 gap-10">
-            {trust.map((t) => (
-              <div key={t.title} className="text-center">
-                <div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <t.icon className="h-6 w-6" />
+          <div className="mt-20 space-y-28">
+            {[
+              {
+                src: screenHome,
+                step: "01",
+                eyebrow: "Dashboard",
+                title: "Your money, at a glance.",
+                desc: "See your total balance across every wallet, recent transactions, and quick actions — all on one beautifully calm screen.",
+                bullets: ["Total balance with income & expense split", "One-tap add income or expense", "Live recent transactions feed"],
+              },
+              {
+                src: screenBudgets,
+                step: "02",
+                eyebrow: "Budgets",
+                title: "Stay on track, automatically.",
+                desc: "Set daily, weekly or monthly budgets and let FinSync warn you the moment you're about to overspend.",
+                bullets: ["Multiple overlapping budget periods", "Visual progress with color cues", "Smart over-budget alerts"],
+              },
+              {
+                src: screenSummary,
+                step: "03",
+                eyebrow: "Monthly Summary",
+                title: "Clarity at the end of every month.",
+                desc: "A clean snapshot of how you spent, saved and progressed toward your goals — built to be read in 10 seconds.",
+                bullets: ["Income vs expense breakdown", "Goal progress at a glance", "Compare with previous months"],
+              },
+            ].map((s, i) => (
+              <div
+                key={s.title}
+                className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}
+              >
+                {/* Phone */}
+                <div className="relative flex justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="h-[360px] w-[360px] rounded-full gradient-hero blur-3xl opacity-30" />
+                  </div>
+                  <div className={`relative ${i % 2 === 0 ? "-rotate-3" : "rotate-3"} transition-transform duration-500 hover:rotate-0`}>
+                    <PhoneFrame src={s.src} alt={s.title} width="w-[240px] md:w-[280px]" featured />
+                  </div>
                 </div>
-                <h3 className="mt-5 text-xl font-semibold">{t.title}</h3>
-                <p className="mt-2 text-muted-foreground leading-relaxed">{t.desc}</p>
+
+                {/* Copy */}
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono font-semibold text-primary">{s.step}</span>
+                    <span className="h-px flex-1 max-w-[60px] bg-border" />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.eyebrow}</span>
+                  </div>
+                  <h3 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+                    {s.title}
+                  </h3>
+                  <p className="mt-4 text-lg text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <ul className="mt-6 space-y-3">
+                    {s.bullets.map((b) => (
+                      <li key={b} className="flex items-start gap-3">
+                        <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+                          <Check className="h-3 w-3" />
+                        </span>
+                        <span className="text-foreground/90">{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ────────────────────────  Plans  ──────────────────────── */}
-      <section id="plans" className="py-24">
-        <div className="container max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Simple Plans for Everyone
+      {/* Why FinSync */}
+      <section id="why" className="py-24 container">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">Why FinSync</span>
+            <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
+              Less spreadsheets. <br /> <span className="text-gradient">More clarity.</span>
             </h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-              FinSync is free. Pick the plan that matches how you manage money.
+            <p className="mt-4 text-lg text-muted-foreground">
+              FinSync was built for people who want a real handle on their finances without the friction of complicated tools.
             </p>
-          </div>
-
-          <div className="mt-14 grid md:grid-cols-3 gap-6 items-stretch">
-            {plans.map((p) => (
-              <div
-                key={p.name}
-                className={`relative rounded-3xl p-8 border flex flex-col ${
-                  p.highlight
-                    ? "gradient-hero text-primary-foreground border-transparent shadow-glow scale-[1.02]"
-                    : "bg-card text-foreground border-border shadow-card"
-                }`}
-              >
-                {p.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-foreground text-background text-xs font-semibold px-3 py-1">
-                    Recommended
+            <ul className="mt-8 space-y-4">
+              {[
+                "Beautiful, gradient-driven UI that's a joy to use daily",
+                "Track multiple wallets and transfer between them",
+                "Smart budgets warn you before you overspend",
+                "Settle debts with friends using built-in IOUs",
+                "Monthly summaries you'll actually want to read",
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-3">
+                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent/15 text-accent">
+                    <Check className="h-4 w-4" />
                   </span>
-                )}
-                <p className={`text-sm font-semibold ${p.highlight ? "opacity-90" : "text-muted-foreground"}`}>
-                  {p.name}
-                </p>
-                <p className="mt-3 text-5xl font-bold tracking-tight">{p.price}</p>
-                <p className={`mt-2 text-sm ${p.highlight ? "opacity-90" : "text-muted-foreground"}`}>
-                  {p.tagline}
-                </p>
-
-                <Button
-                  asChild
-                  className={`mt-6 rounded-full ${
-                    p.highlight
-                      ? "bg-white text-primary hover:bg-white/90"
-                      : "bg-foreground text-background hover:bg-foreground/90"
-                  }`}
-                >
-                  <a href="#download">{p.cta}</a>
-                </Button>
-
-                <div className={`my-6 h-px ${p.highlight ? "bg-white/30" : "bg-border"}`} />
-
-                <ul className="space-y-3 text-sm">
-                  {p.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-3">
-                      <span
-                        className={`mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full ${
-                          p.highlight ? "bg-white/20" : "bg-primary/10 text-primary"
-                        }`}
-                      >
-                        <Check className="h-3 w-3" />
-                      </span>
-                      <span className={p.highlight ? "" : "text-foreground/90"}>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  <span className="text-foreground/90">{b}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      </section>
-
-      {/* ────────────────────────  FAQ  ──────────────────────── */}
-      <section id="faq" className="py-24">
-        <div className="container max-w-3xl">
-          <div className="text-center">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-              Everything you need to know about FinSync.
-            </p>
-          </div>
-
-          <Accordion type="single" collapsible className="mt-12 space-y-3">
-            {faqs.map((f, i) => (
-              <AccordionItem
-                key={f.q}
-                value={`item-${i}`}
-                className="rounded-2xl border border-border bg-card px-5 shadow-card"
-              >
-                <AccordionTrigger className="text-left font-semibold hover:no-underline">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* ────────────────────────  Final CTA  ──────────────────────── */}
-      <section id="download" className="py-16">
-        <div className="container max-w-6xl">
-          <div className="relative overflow-hidden rounded-[2.5rem] gradient-hero p-10 md:p-16 text-primary-foreground shadow-glow">
-            <div className="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-
-            <div className="relative grid lg:grid-cols-2 gap-10 items-center">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-                  Start Managing Your Finances with Confidence
-                </h2>
-                <p className="mt-4 text-lg opacity-90 max-w-md">
-                  Download FinSync on Android today — free, private and beautifully simple.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <PlayBadge variant="light" />
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="rounded-full h-[58px] px-6 border-white/40 bg-white/10 text-primary-foreground hover:bg-white/20 hover:text-primary-foreground"
-                  >
-                    <a href="#features">Explore Features</a>
-                  </Button>
+          <div className="relative">
+            <div className="absolute -inset-6 gradient-hero rounded-[2.5rem] blur-3xl opacity-30" />
+            <div className="relative rounded-3xl gradient-card p-8 md:p-10 shadow-glow text-primary-foreground overflow-hidden">
+              <div className="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-white/10" />
+              <div className="absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-white/10" />
+              <div className="relative">
+                <p className="text-sm opacity-80">Total Balance</p>
+                <p className="mt-1 text-5xl font-bold">₹ 15,000</p>
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  <div className="rounded-2xl bg-white/15 backdrop-blur p-4">
+                    <p className="text-xs opacity-80">Income</p>
+                    <p className="text-2xl font-semibold mt-1">₹ 22,500</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/15 backdrop-blur p-4">
+                    <p className="text-xs opacity-80">Expense</p>
+                    <p className="text-2xl font-semibold mt-1">₹ 7,500</p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="relative flex justify-center lg:justify-end">
-                <div className="rotate-6">
-                  <PhoneFrame src={screenSummary} alt="Monthly summary" width="w-[230px] md:w-[260px]" />
+                <div className="mt-6 h-2 w-full rounded-full bg-white/20 overflow-hidden">
+                  <div className="h-full w-1/3 bg-white rounded-full" />
                 </div>
+                <p className="mt-3 text-xs opacity-80">33% of monthly budget used</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ────────────────────────  Footer  ──────────────────────── */}
+      {/* Download CTA */}
+      <section id="download" className="py-24">
+        <div className="container">
+          <div className="relative overflow-hidden rounded-3xl gradient-hero p-12 md:p-20 text-center text-primary-foreground shadow-glow">
+            <div className="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-white/10 blur-2xl" />
+            <div className="absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-white/10 blur-2xl" />
+            <div className="relative max-w-2xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+                Ready to sync your finances?
+              </h2>
+              <p className="mt-4 text-lg opacity-90">
+                Download FinSync on Android today. iOS coming soon.
+              </p>
+              <div className="mt-8 flex justify-center">
+                <PlayBadge />
+              </div>
+              <p className="mt-6 text-sm opacity-75">Available on Android · Free download</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
       <footer className="border-t border-border py-10">
-        <div className="container max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+        <div className="container flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-3">
             <img src={logo} alt="FinSync" className="h-7 w-auto" />
             <span>© {new Date().getFullYear()} FinSync. Your finance companion.</span>
           </div>
           <div className="flex items-center gap-6">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-            <a href="#plans" className="hover:text-foreground transition-colors">Plans</a>
-            <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
             <a href="#download" className="hover:text-foreground transition-colors">Download</a>
+            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
           </div>
         </div>
       </footer>
