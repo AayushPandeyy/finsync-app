@@ -103,7 +103,7 @@ const Index = () => {
           </div>
 
           {/* Phone mockups */}
-          <div className="relative h-[560px] lg:h-[640px] flex items-center justify-center">
+          <div className="relative h-[560px] lg:h-[640px] flex items-center justify-center lg:ml-8">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-80 w-80 rounded-full gradient-hero blur-3xl opacity-40" />
             </div>
@@ -112,7 +112,7 @@ const Index = () => {
               <img
                 src={screenBudgets}
                 alt="FinSync budgets screen"
-                className="relative w-[230px] md:w-[260px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow -rotate-6 -translate-x-16 md:-translate-x-24"
+                className="relative w-[200px] md:w-[230px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow -rotate-6 -translate-x-12 md:-translate-x-20"
               />
             </div>
             <div className="relative animate-float z-10">
@@ -120,7 +120,7 @@ const Index = () => {
               <img
                 src={screenHome}
                 alt="FinSync home screen"
-                className="relative w-[260px] md:w-[290px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow"
+                className="relative w-[230px] md:w-[260px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow"
               />
             </div>
             <div className="relative animate-float-delayed">
@@ -128,7 +128,7 @@ const Index = () => {
               <img
                 src={screenSummary}
                 alt="FinSync monthly summary screen"
-                className="relative w-[230px] md:w-[260px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow rotate-6 translate-x-16 md:translate-x-24"
+                className="relative w-[200px] md:w-[230px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow rotate-6 translate-x-12 md:translate-x-20"
               />
             </div>
           </div>
