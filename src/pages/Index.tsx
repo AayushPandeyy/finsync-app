@@ -103,33 +103,67 @@ const Index = () => {
           </div>
 
           {/* Phone mockups */}
-          <div className="relative h-[560px] lg:h-[640px] flex items-center justify-center lg:ml-8">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-80 w-80 rounded-full gradient-hero blur-3xl opacity-40" />
+          <div className="relative h-[600px] lg:h-[680px] flex items-center justify-center lg:ml-8">
+            {/* Backdrop glow */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="h-[420px] w-[420px] rounded-full gradient-hero blur-3xl opacity-50" />
             </div>
-            <div className="relative animate-float-delayed">
-              <div className="absolute -inset-2 gradient-hero rounded-[2.5rem] blur-2xl opacity-50" />
-              <img
-                src={screenBudgets}
-                alt="FinSync budgets screen"
-                className="relative w-[200px] md:w-[230px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow -rotate-6 -translate-x-12 md:-translate-x-20"
-              />
+            {/* Decorative grid dots */}
+            <div
+              className="absolute inset-0 opacity-[0.18] pointer-events-none"
+              style={{
+                backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
+                backgroundSize: "22px 22px",
+                maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+              }}
+            />
+
+            {/* Left phone */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+140px)] -translate-y-[calc(50%-10px)] animate-float-delayed">
+              <PhoneFrame src={screenBudgets} alt="FinSync budgets" rotate="-rotate-[10deg]" width="w-[210px] md:w-[230px]" />
             </div>
-            <div className="relative animate-float z-10">
-              <div className="absolute -inset-2 gradient-hero rounded-[2.5rem] blur-2xl opacity-60" />
-              <img
-                src={screenHome}
-                alt="FinSync home screen"
-                className="relative w-[230px] md:w-[260px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow"
-              />
+
+            {/* Right phone */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%-140px)] -translate-y-[calc(50%-10px)] animate-float-delayed" style={{ animationDelay: "2s" }}>
+              <PhoneFrame src={screenSummary} alt="FinSync summary" rotate="rotate-[10deg]" width="w-[210px] md:w-[230px]" />
             </div>
-            <div className="relative animate-float-delayed">
-              <div className="absolute -inset-2 gradient-hero rounded-[2.5rem] blur-2xl opacity-50" />
-              <img
-                src={screenSummary}
-                alt="FinSync monthly summary screen"
-                className="relative w-[200px] md:w-[230px] rounded-[2rem] border-[6px] border-foreground/90 shadow-glow rotate-6 translate-x-12 md:translate-x-20"
-              />
+
+            {/* Center phone (front) */}
+            <div className="relative z-20 animate-float">
+              <PhoneFrame src={screenHome} alt="FinSync home" width="w-[260px] md:w-[290px]" featured />
+            </div>
+
+            {/* Floating UI accents */}
+            <div className="absolute top-12 left-4 md:left-2 z-30 animate-float" style={{ animationDelay: "1.2s" }}>
+              <div className="flex items-center gap-3 rounded-2xl bg-card/95 backdrop-blur border border-border shadow-card px-4 py-3">
+                <div className="h-9 w-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center">
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="leading-tight">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">This month</p>
+                  <p className="text-sm font-semibold">+₹ 22,500</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute bottom-16 right-2 md:right-0 z-30 animate-float-delayed" style={{ animationDelay: "0.6s" }}>
+              <div className="flex items-center gap-3 rounded-2xl gradient-card text-primary-foreground shadow-glow px-4 py-3">
+                <div className="h-9 w-9 rounded-xl bg-white/20 flex items-center justify-center">
+                  <Target className="h-4 w-4" />
+                </div>
+                <div className="leading-tight">
+                  <p className="text-[10px] uppercase tracking-wider opacity-80">Goal</p>
+                  <p className="text-sm font-semibold">68% reached</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-24 right-6 z-30 animate-float" style={{ animationDelay: "2.4s" }}>
+              <div className="rounded-full bg-card/95 backdrop-blur border border-border shadow-card px-3 py-1.5 flex items-center gap-1.5">
+                <Sparkles className="h-3 w-3 text-primary" />
+                <span className="text-xs font-medium">On track</span>
+              </div>
             </div>
           </div>
         </div>
