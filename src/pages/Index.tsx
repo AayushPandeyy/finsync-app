@@ -48,6 +48,34 @@ const PlayBadge = ({ className = "" }: { className?: string }) => (
   </a>
 );
 
+const PhoneFrame = ({
+  src,
+  alt,
+  width = "w-[260px]",
+  rotate = "",
+  featured = false,
+}: {
+  src: string;
+  alt: string;
+  width?: string;
+  rotate?: string;
+  featured?: boolean;
+}) => (
+  <div className={`relative ${rotate}`}>
+    <div className={`absolute -inset-3 gradient-hero rounded-[3rem] blur-2xl ${featured ? "opacity-60" : "opacity-40"}`} />
+    <div
+      className={`relative ${width} rounded-[2.5rem] bg-foreground p-[6px] shadow-glow`}
+      style={{ boxShadow: featured ? "0 40px 90px -20px hsl(250 70% 40% / 0.55), inset 0 0 0 1px hsl(0 0% 100% / 0.08)" : "0 25px 60px -20px hsl(250 60% 30% / 0.45), inset 0 0 0 1px hsl(0 0% 100% / 0.06)" }}
+    >
+      <div className="relative overflow-hidden rounded-[2.1rem] bg-background">
+        {/* Notch */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 h-5 w-20 rounded-full bg-foreground" />
+        <img src={src} alt={alt} className="block w-full h-auto" />
+      </div>
+    </div>
+  </div>
+);
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
