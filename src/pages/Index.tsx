@@ -68,8 +68,6 @@ const PhoneFrame = ({
       style={{ boxShadow: featured ? "0 40px 90px -20px hsl(250 70% 40% / 0.55), inset 0 0 0 1px hsl(0 0% 100% / 0.08)" : "0 25px 60px -20px hsl(250 60% 30% / 0.45), inset 0 0 0 1px hsl(0 0% 100% / 0.06)" }}
     >
       <div className="relative overflow-hidden rounded-[2.1rem] bg-background">
-        {/* Notch */}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 h-5 w-20 rounded-full bg-foreground" />
         <img src={src} alt={alt} className="block w-full h-auto" />
       </div>
     </div>
@@ -148,13 +146,13 @@ const Index = () => {
             />
 
             {/* Left phone */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+140px)] -translate-y-[calc(50%-10px)] animate-float-delayed">
-              <PhoneFrame src={screenBudgets} alt="FinSync budgets" rotate="-rotate-[10deg]" width="w-[210px] md:w-[230px]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+200px)] -translate-y-[calc(50%-10px)] animate-float-delayed">
+              <PhoneFrame src={screenBudgets} alt="FinSync budgets" rotate="-rotate-[10deg]" width="w-[190px] md:w-[210px]" />
             </div>
 
             {/* Right phone */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%-140px)] -translate-y-[calc(50%-10px)] animate-float-delayed" style={{ animationDelay: "2s" }}>
-              <PhoneFrame src={screenSummary} alt="FinSync summary" rotate="rotate-[10deg]" width="w-[210px] md:w-[230px]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%-200px)] -translate-y-[calc(50%-10px)] animate-float-delayed" style={{ animationDelay: "2s" }}>
+              <PhoneFrame src={screenSummary} alt="FinSync summary" rotate="rotate-[10deg]" width="w-[190px] md:w-[210px]" />
             </div>
 
             {/* Center phone (front) */}
