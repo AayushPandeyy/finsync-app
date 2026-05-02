@@ -552,7 +552,7 @@ const Index = () => {
       <footer className="border-t border-border py-10">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="FinSync" className="h-10 w-auto" />
+            <img src={logo} alt="FinSync" className="h-20 w-auto" />
             <span>
               © {new Date().getFullYear()} FinSync. Your finance companion.
             </span>
