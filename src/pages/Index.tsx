@@ -520,7 +520,7 @@ const Index = () => {
       </section>
 
       {/* Download CTA */}
-      <section id="download" className="py-24">
+      <section id="download" className="py-24 px-48">
         <div className="container">
           <div className="relative overflow-hidden rounded-3xl gradient-hero p-12 md:p-20 text-center text-primary-foreground shadow-glow">
             <div className="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-white/10 blur-2xl" />
